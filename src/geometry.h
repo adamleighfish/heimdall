@@ -53,8 +53,13 @@ public:
 
     double LengthSquared() const { return x * x + y * y + z * z; }
     double Lenght() const { return std::sqrt(LengthSquared()); }
-
 };
+
+template <typename T>
+std::ostream& operator<<(std::ostream& os, const Vec3<T>& v) {
+    os << v.x << " " << v.y << " " << v.z;
+    return os;
+}
 
 template <typename T>
 Vec3<T> Abs(const Vec3<T>& v) {
