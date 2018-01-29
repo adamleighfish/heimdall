@@ -86,5 +86,62 @@ inline Vec3<T> Cross(const Vec3<T>& v1, const Vec3<T>& v2) {
 template <typename T>
 inline Vec3<T> Normalize(const Vec3<T>& v) { return v / v.Length(); }
 
+template <typename T>
+T MinComponent(const Vec3<T>& v) {
+    return std::min(v.x, std::min(v.y, v.z));
+}
+
+template <typename T>
+T MaxComponent(const Vec3<T>& v) {
+    return std::max(v.x, std::max(v.y, v.z));
+}
+
+template <typename T>
+int MinDimension(const Vec3<T>& v) {
+    if (v.x < v.y)
+        if (v.x < v.z)
+            return 0;
+        return 1;
+    if (v.y < v.z)
+        return 1;
+    return 2;
+}
+
+template <typename T>
+int MaxDimension(const Vec3<T>& v) {
+    if (v.x > v.y)
+        if (v.x > v.z)
+            return 0;
+        return 1;
+    if (v.y > v.z)
+        return 1;
+    return 2;
+}
+
+template <typename T>
+Vec3<T> Min(const Vec3<T>& v1, const Vec3<T>& v2) {
+    return Vec3<T>(std::min(v1.x, v2.x), std::min(v1.y, v2.y), std::min(v1.z, v2.z));
+}
+
+template <typename T>
+Vec3<T> Max(const Vec3<T>& v1, const Vec3<T>& v2) {
+    return Vec3<T>(std::max(v1.x, v2.x), std::max(v1.y, v2.y), std::max(v1.z, v2.z));
+}
+
+template <typename T>
+Vec3<T> Permute(const Vec3<T>& v, int x, int y, int z) {
+    return Vec3<T>(v[x], v[y], v[z]);
+}
+
+template <typename T>
+inline void CoordinateSystem(const Vec3<T>& v1, Vec3<T>* v2, Vec3<T>* v3) {
+    if (std::abs(v1.x) > std::abs(v1.y)) {
+        *v2 = Vec3<T>(-v1.z, 0, v1.x) / std::sqrt(v1.x * v1.x + v1.z * v1.z);
+    } else {
+        *v2 = Vec3<T>(0, v1.z, -v1.y) / std::sqrt(v1.y * v1.y + v1.z * v1.z);
+    }
+    *v3 = Cross(v1, *v2);
+}
+
 typedef Vec3<double> Vec3f;
 typedef Vec3<int> Vec3i;
