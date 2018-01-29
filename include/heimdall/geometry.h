@@ -62,6 +62,21 @@ std::ostream& operator<<(std::ostream& os, const Vec3<T>& v) {
 }
 
 template <typename T>
+bool operator==(const Vec3<T>& v1, const Vec3<T>& v2) {
+    return (v1.x == v2.x) and (v1.y == v2.y) and (v1.z == v2.z);
+}
+
+template <typename T>
+bool operator!=(const Vec3<T>& v1, const Vec3<T>& v2) {
+    return (v1.x != v2.x) or (v1.y != v2.y) or (v1.z != v2.z);
+}
+
+template <typename T>
+Vec3<T> operator*(T s, const Vec3<T>& v) {
+    return v * s;
+}
+
+template <typename T>
 Vec3<T> Abs(const Vec3<T>& v) {
     return Vec3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
 }
