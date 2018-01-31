@@ -54,6 +54,90 @@ public:
 };
 
 template <typename T>
+std::ostream& operator<<(std::ostream& os, const Vec2<T>& v) {
+    os << v.x << " " << v.y;
+    return os;
+}
+
+template <typename T>
+bool operator==(const Vec2<T>& v1, const Vec2<T>& v2) {
+    return (v1.x == v2.x) and (v1.y == v2.y);
+}
+
+template <typename T>
+bool operator!=(const Vec2<T>& v1, const Vec2<T>& v2) {
+    return (v1.x != v2.x) or (v1.y != v2.y);
+}
+
+template <typename T>
+Vec2<T> operator*(T s, const Vec2<T>& v) {
+    return v * s;
+}
+
+template <typename T>
+Vec2<T> Abs(const Vec2<T>& v) {
+    return Vec2<T>(std::abs(v.x), std::abs(v.y));
+}
+
+template <typename T>
+inline T Dot(const Vec2<T>& v1, const Vec2<T>& v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+template <typename T>
+inline T AbsDot(const Vec2<T>& v1, const Vec2<T>& v2) {
+    return std::abs(Dot(v1, v2));
+}
+
+template <typename T>
+inline Vec2<T> Normalize(const Vec2<T>& v) {
+    return v / v.Length();
+}
+
+template <typename T>
+T MinComponent(const Vec2<T>& v) {
+    return std::min(v.x, v.y);
+}
+
+template <typename T>
+T MaxComponent(const Vec2<T>& v) {
+    return std::max(v.x, v.y);
+}
+
+template <typename T>
+int MinDimension(const Vec2<T>& v) {
+    if (v.x < v.y)
+        return 0;
+    return 1;
+}
+
+template <typename T>
+int MaxDimension(const Vec2<T>& v) {
+    if (v.x > v.y) 
+        return 0;
+    return 1;
+}
+
+template <typename T>
+Vec2<T> Min(const Vec2<T>& v1, const Vec2<T>& v2) {
+    return Vec2<T>(std::min(v1.x, v2.x), std::min(v1.y, v2.y));
+}
+
+template <typename T>
+Vec2<T> Max(const Vec2<T>& v1, const Vec2<T>& v2) {
+    return Vec2<T>(std::max(v1.x, v2.x), std::max(v1.y, v2.y));
+}
+
+template <typename T>
+void CoordinateSystem(const Vec2<T>& v1, Vec2<T>* v2) {
+    if (std::abs(v1.x) > std::abs(v1.y)) {
+        *v2 = Vec2<T>(-v1.y, v1.x);
+    } else {
+        *v2 = Vec2<T>(v1.x, -v1.y);
+    }
+}
+
+template <typename T>
 class Vec3 {
 public:
     T x, y, z;
@@ -210,3 +294,5 @@ inline void CoordinateSystem(const Vec3<T>& v1, Vec3<T>* v2, Vec3<T>* v3) {
 
 typedef Vec3<double> Vec3f;
 typedef Vec3<int> Vec3i;
+typedef Vec2<double> Vec2f;
+typedef Vec2<int> Vec2i;
