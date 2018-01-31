@@ -3,6 +3,18 @@
 #include <iostream>
 #include <cmath>
 
+/* ===================================================================
+    This file contains a few templates and specializations, which
+    provide 2/3D points, vectors, and normals over different
+    underlying data types. Points, vectors, and normals are distinct
+    because they transform differently under homogeneous coordinate 
+    transformations.
+ * =================================================================== */
+
+/**
+ * \brief Generic 2-dimensional vector data structure
+ */
+
 template <typename T>
 class Vec2 {
 public:
@@ -136,6 +148,10 @@ void CoordinateSystem(const Vec2<T>& v1, Vec2<T>* v2) {
         *v2 = Vec2<T>(v1.x, -v1.y);
     }
 }
+
+/**
+ * \brief Generic 3-dimensional vector data structure
+ */
 
 template <typename T>
 class Vec3 {
