@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "heimdall/geometry.h"
 
+HEIMDALL_NAMESPACE_BEGIN
+
 TEST(Vec3f, VectorAddition) {
     Vec3f v1(1.0, 1.0, 1.0);
     Vec3f v2(2.0, 2.0, 2.0);
@@ -71,3 +73,5 @@ TEST(Vec3f, CrossProduct) {
 
     ASSERT_EQ(Cross(v1, v2), v3);
 }
+
+HEIMDALL_NAMESPACE_END

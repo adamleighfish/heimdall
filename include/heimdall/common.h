@@ -26,14 +26,14 @@
 HEIMDALL_NAMESPACE_BEGIN
 
 /// Forward declarations
-template <typedef T> class Vec2;
-template <typedef T> class Vec3;
+template <typename T> class Vec2;
+template <typename T> class Vec3;
 
 /// Basic data stuctures with common type aliases
-typedef Vec2<double>    Vec3f;
-typedef Vec3<double>    Vec2f;
-typedef Vec2<int>       Vec3i;
-typedef Vec3<int>       Vec2i;
+typedef Vec2<double>    Vec2f;
+typedef Vec3<double>    Vec3f;
+typedef Vec2<int>       Vec2i;
+typedef Vec3<int>       Vec3i;
 
 /// Common functions across all files
 
@@ -41,3 +41,5 @@ typedef Vec3<int>       Vec2i;
 using std::cout;
 using std::cerr;
 using std::endl;
+
+HEIMDALL_NAMESPACE_END
