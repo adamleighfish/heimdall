@@ -4,11 +4,11 @@
 #include <cmath>
 
 template <typename T>
-class Vec3 {
+class Vec2 {
 public:
     T x, y;
 
-    Vec2() { x = = y = 0; }
+    Vec2() { x = y = 0; }
     Vec2(T _x, T _y) {
         x = _x;
         y = _y;
