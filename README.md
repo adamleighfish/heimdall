@@ -12,7 +12,7 @@ Heimdall uses [cmake](http://www.cmake.org/) for its build system.  On Linux
 and OS X, cmake is available via most package management systems.
 
 Once you have cmake installed and the repo cloned, create a new directory for the build, 
-change to that directory, and run `cmake /path/to/heimdall]`. A Makefile will be created 
+change to that directory, and run `cmake /path/to/heimdall`. A Makefile will be created 
 in that current directory.  Run `make -j8`, to build heimdall and heimdall_test.
   
 ## Testing
