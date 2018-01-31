@@ -6,6 +6,56 @@
 template <typename T>
 class Vec3 {
 public:
+    T x, y;
+
+    Vec2() { x = = y = 0; }
+    Vec2(T _x, T _y) {
+        x = _x;
+        y = _y;
+    }
+
+    T& operator[](int i) {
+        if (i == 0) return x;
+        return y;
+    }
+
+    Vec2<T> operator+(const Vec2<T>& v) const { return Vec2<T>(x + v.x, y + v.y); }
+    Vec2<T>& operator+=(const Vec2<T>& v) {
+        x += v.x; y += v.y;
+        return *this;
+    }
+
+    Vec2<T> operator-(const Vec2<T>& v) const { return Vec2<T>(x - v.x, y - v.y); }
+    Vec2<T>& operator-=(const Vec2<T>& v) {
+        x -= v.x; y -= v.y;
+        return *this;
+    }
+    
+    Vec2<T> operator*(T s) const { return Vec2<T>(s * x, s * y); } 
+    Vec2<T>& operator*=(T s) {
+        x *= s; y *= s;
+        return *this;
+    }
+
+    Vec2<T> operator/(T s) const {
+        double inv = 1 / double(s);
+        return Vec2<T>(inv * x, inv * y);
+    }
+    Vec2<T>& operator/=(T s) {
+        double inv = 1 / double(s);
+        x *= inv; y *= inv;
+        return *this;
+    }
+    
+    Vec2<T> operator-() const { return Vec2<T>(-x, -y); }
+
+    double LengthSquared() { return x * x + y * y; }
+    double Length() { return std::sqrt(LengthSquared()); }
+};
+
+template <typename T>
+class Vec3 {
+public:
     T x, y, z;
 
     Vec3() { x = y = z = 0; }
