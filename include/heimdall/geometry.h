@@ -1,7 +1,8 @@
 #pragma once
 
-#include <iostream>
-#include <cmath>
+#include "nori/common.h"
+
+HEIMDALL_NAMESPACE_BEGIN
 
 /* ===================================================================
     This file contains a few templates and specializations, which
@@ -308,7 +309,4 @@ inline void CoordinateSystem(const Vec3<T>& v1, Vec3<T>* v2, Vec3<T>* v3) {
     *v3 = Cross(v1, *v2);
 }
 
-typedef Vec3<double> Vec3f;
-typedef Vec3<int> Vec3i;
-typedef Vec2<double> Vec2f;
-typedef Vec2<int> Vec2i;
+HEIMDALL_NAMESPACE_END
