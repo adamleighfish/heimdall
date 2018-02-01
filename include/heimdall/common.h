@@ -28,12 +28,18 @@ HEIMDALL_NAMESPACE_BEGIN
 /// Forward declarations
 template <typename T> class Vec2;
 template <typename T> class Vec3;
+template <typename T> class Point2;
+template <typename T> class Point3;
 
 /// Basic data stuctures with common type aliases
 typedef Vec2<double>    Vec2f;
 typedef Vec3<double>    Vec3f;
 typedef Vec2<int>       Vec2i;
 typedef Vec3<int>       Vec3i;
+typedef Point2<double>  Point2f;
+typedef Point3<double>  Point3f;
+typedef Point2<int>		Point2i;
+typedef Point3<int>		Point3i;
 
 /// Common functions across all files
 

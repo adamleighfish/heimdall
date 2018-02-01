@@ -141,12 +141,15 @@ Vec2<T> Max(const Vec2<T>& v1, const Vec2<T>& v2) {
     return Vec2<T>(std::max(v1.x, v2.x), std::max(v1.y, v2.y));
 }
 
+/// Create a coordinate system given one Vec2
+///     NOTE: The dot product of v1 with the computed v2 must equal 0.
+///           Also assumes the given v1 is already normalized
 template <typename T>
 void CoordinateSystem(const Vec2<T>& v1, Vec2<T>* v2) {
     if (std::abs(v1.x) > std::abs(v1.y)) {
         *v2 = Vec2<T>(-v1.y, v1.x);
     } else {
-        *v2 = Vec2<T>(v1.x, -v1.y);
+        *v2 = Vec2<T>(v1.y, -v1.x);
     }
 }
 
@@ -160,6 +163,7 @@ public:
     T x, y, z;
 
     Vec3() { x = y = z = 0; }
+    Vec3(T s) { x = y = z = s; }
     Vec3(T _x, T _y, T _z) {
         x = _x;
         y = _y;
@@ -308,5 +312,119 @@ inline void CoordinateSystem(const Vec3<T>& v1, Vec3<T>* v2, Vec3<T>* v3) {
     }
     *v3 = Cross(v1, *v2);
 }
+
+/**
+ * \brief Generic 2-dimensional point data structure
+ */
+
+template <typename T>
+class Point2 {
+public:
+    
+    T x, y;
+
+    Point2() { x = y = 0;}
+    Point2(T _x, T _y) {
+        x = _x;
+        y = _y;
+    }
+
+    /// Explicit conversion from Point3 to Point2 by droping z
+    explicit Point2(const Point3<T>& p) {
+        x = p.x;
+        y = p.y;
+    }
+
+    /// Explicit type conversion of a Point2
+    template <typename U> explicit Point2(const Point2<U>& p) {
+        x = T(p.x);
+        y = T(p.y);
+    }
+
+    /// Explicit conversion to a Vec2
+    template <typename U> explicit operator Vec3<U>() const {
+        return Vec2<U>(x, y);
+    }
+
+    Point2<T> operator+(const Vec2<T>& v) const {
+        return Point2<T>(x + v.x, y + v.y);
+    }
+
+    Point2<T>& operator+=(const Vec2<T>& v) {
+        x += v.x;
+        y += v.y;
+        return *this;
+    }
+
+    Point2<T> operator-(const Vec2<T>& v) const {
+        return Point2<T>(x - v.x, y - v.y);
+    }
+
+    Point2<T>& operator-=(const Vec2<T>& v) {
+        x -= v.x;
+        y -= v.y;
+        return *this;
+    }
+
+    Vec2<T> operator-(const Point2<T>& p) const {
+        return Vec2<T>(x - p.x, y - p.y);
+    }
+};
+
+/**
+ * \brief Generic 3-dimensional point data structure
+ */
+
+template <typename T>
+class Point3 {
+public:
+
+    T x, y, z;
+
+    Point3() { x = y = z = 0; }
+    Point3(T _x, T _y, T _z) {
+        x = _x;
+        y = _y;
+        z = _z;
+    }
+
+    /// Explicit type conversion of a Point3
+    template <typename U> explicit Point3(const Point3<U>& p) {
+        x = T(p.x);
+        y = T(p.y);
+        z = T(p.z);
+    }
+
+    /// Explicit conversion to a Vec3
+    template <typename U> explicit operator Vec3<U>() const {
+        return Vec3<U>(x, y, z);
+    }
+
+    Point3<T> operator+(const Vec3<T>& v) const {
+        return Point3<T>(x + v.x, y + v.y, z + v.z);
+    }
+
+    Point3<T>& operator+=(const Vec3<T>& v) {
+        x += v.x;
+        y += v.y;
+        z += v.z;
+        return *this;
+    }
+
+    Point3<T> operator-(const Vec3<T>& v) const {
+        return Point3<T>(x - v.x, y - v.y), z - v.z;
+    }
+
+    Point3<T>& operator-=(const Vec3<T>& v) {
+        x -= v.x;
+        y -= v.y;
+        z -= v.z;
+        return *this;
+    }
+
+    Vec3<T> operator-(const Point3<T>& p) const {
+        return Vec3<T>(x - p.x, y - p.y, z - p.z);
+    }
+};
 
 HEIMDALL_NAMESPACE_END
