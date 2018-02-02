@@ -306,6 +306,14 @@ class Point2 {
         y += p.y;
         return *this;
     }
+
+    bool operator==(const Point2<T>& p) const {
+        return (x == p.x) and (y == p.y);
+    }
+
+    bool operator!=(const Point2<T>& p) const {
+        return (x != p.x) or (y != p.y);
+    }
 };
 
 /**
@@ -399,6 +407,105 @@ class Point3 {
         y += p.y;
         z += p.z;
         return *this;
+    }
+
+    bool operator==(const Point3<T>& p) const {
+        return (x == p.x) and (y == p.y) and (z == p.z);
+    }
+
+    bool operator!=(const Point3<T>& p) const {
+        return (x != p.x) or (y != p.y) or (z != p.z);
+    }
+};
+
+ /**
+ * \brief Generic 3-dimensional normal data structure
+ */
+
+template <typename T>
+class Normal3 {
+  public:
+    /// Normal3 public data
+    T x, y, z;
+
+    /// Normal3 public methods
+    Normal3() {
+        x = y = z = 0;
+    }
+
+    Normal3(T _x, T _y, T _z) {
+        x = _x;
+        y = _y;
+        z = _z;
+    }
+
+    /// Explicit constructor from a Vec3
+    explicit Normal3(const Vec3<T>& v) {
+        x = v.x;
+        y = v.y;
+        z = v.z;
+    }
+
+    Normal3<T> operator+(const Normal3<T>& n) const {
+        return Normal3<T>(x + n.x, y + n.y, z + n.z);
+    }
+
+    Normal3<T>& operator+=(const Normal3<T>& n) {
+        x += n.x;
+        y += n.y;
+        z += n.z;
+        return *this;
+    }
+
+    Normal3<T> operator-(const Normal3<T>& n) const {
+        return Normal3<T>(x - n.x, y - n.x, z - n.z);
+    }
+
+    Normal3<T>& operator-=(const Normal3<T>& n) {
+        x -= n.x;
+        y -= n.y;
+        z -= n.z;
+        return *this;
+    }
+
+    template <typename U>
+    Normal3<T> operator*(U s) const {
+        return Normal3<T>(x * s, y * s, z * s);
+    }
+
+    template <typename U>
+    Normal3<T>& operator*=(U s) {
+        x *= s;
+        y *= s;
+        z *= s;
+        return *this;
+    }
+
+    template <typename U>
+    Normal3<T> operator/(U s) const {
+        double inv = 1.0 / double(s);
+        return Normal3<T>(x * inv, y * inv, z * inv);
+    }
+
+    template <typename U>
+    Normal3<T>& operator/=(U s) {
+        double inv = 1.0 / double(s);
+        x /= inv;
+        y /= inv;
+        z /= inv;
+        return *this;
+    }
+
+    Normal3<T> operator-() const {
+        return Normal3<T>(-x, -y, -z);
+    }
+
+    double LengthSquared() const {
+        return x * x + y * y + z * z;
+    }
+
+    double Length() const {
+        return std::sqrt(LengthSquared());
     }
 };
 
@@ -677,5 +784,68 @@ inline Point3<T> Permute(const Point3<T>& p, int x, int y, int z) {
     return Point3<T>(p[x], p[y], p[z]);
 }
 
+/**
+ * \brief Normal inline functions
+ */
+
+template <typename T, typename U>
+inline Normal3<T> operator*(U s, const Normal3<T>& n) {
+    return n * s;
+}
+
+template <typename T>
+inline Normal3<T> Normalize(const Normal3<T>& n) {
+    return n / n.Length();
+}
+
+template <typename T>
+inline double Dot(const Normal3<T>& n1, const Normal3<T>& n2) {
+    return n1.x * n2.x + n1.y * n2.y + n1.z * n2.z;
+}
+
+template <typename T>
+inline double Dot(const Normal3<T>& n, const Vec3<T>& v) {
+    return n.x * v.x + n.y * v.y + n.z * v.z;
+}
+
+template <typename T>
+inline double Dot(const Vec3<T>& v, const Normal3<T>& n) {
+    return n.x * v.x + n.y * v.y + n.z * v.z;
+}
+
+template <typename T>
+inline double AbsDot(const Normal3<T>& n1, const Normal3<T>& n2) {
+    return std::abs(Dot(n1, n2));
+}
+
+template <typename T>
+inline double AbsDot(const Normal3<T>& n, const Vec3<T>& v) {
+    return std::abs(Dot(n, v));
+}
+
+template <typename T>
+inline double AbsDot(const Vec3<T>& v, const Normal3<T>& n) {
+    return std::abs(Dot(v, n));
+}
+
+template <typename T>
+inline Normal3<T> Faceforward(const Normal3<T>& n, const Vec3<T>& v) {
+    return (Dot(n, v) < 0.f) ? -n : n;
+}
+
+template <typename T>
+inline Vec3<T> Faceforward(const Vec3<T>& v, const Normal3<T>& n) {
+    return (Dot(v, n) < 0.f) ? -v : v;
+}
+
+template <typename T>
+inline Normal3<T> Faceforward(const Normal3<T>& n1, const Normal3<T>& n2) {
+    return (Dot(n1, n2) < 0.f) ? -n1 : n1;
+}
+
+template <typename T>
+inline Vec3<T> Faceforward(const Vec3<T>& v1, const Vec3<T>& v2) {
+    return (Dot(v1, v2) < 0.f) ? -v1 : v2;
+}
 
 HEIMDALL_NAMESPACE_END

@@ -30,6 +30,8 @@ template <typename T> class Vec2;
 template <typename T> class Vec3;
 template <typename T> class Point2;
 template <typename T> class Point3;
+template <typename T> class Normal2;
+template <typename T> class Normal3;
 
 /// Basic data stuctures with common type aliases
 typedef Vec2<double>    Vec2f;
@@ -40,6 +42,8 @@ typedef Point2<double>  Point2f;
 typedef Point3<double>  Point3f;
 typedef Point2<int>		Point2i;
 typedef Point3<int>		Point3i;
+typedef Normal2<double> Normal2f;
+typedef Normal3<double> Normal3f;
 
 /// Common functions across all files
 
