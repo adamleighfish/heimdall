@@ -510,6 +510,68 @@ class Normal3 {
 };
 
 /**
+ * \breief Ray data structure
+ */
+
+class Ray {
+  public:
+    /// Ray public data
+    Point3f o;
+    Vec3f d;
+    mutable double tMax;
+    double time;
+
+    /// Ray public methods
+    Ray() {
+        tMax = INFINITY;
+        time = 0.f;
+    }
+
+    Ray(const Point3f& _o, const Vec3f& _d, double _tMax = INFINITY, double _time = 0.f) {
+        o = _o;
+        d = _d;
+        tMax = _tMax;
+        time = _time;
+    }
+
+    Point3f operator()(double t) const {
+        return o + d * t;
+    }
+};
+
+/**
+ * \breief RayDifferential data structure
+ */
+class RayDifferential: public Ray {
+  public:
+    /// RayDifferential public data
+    bool hasDifferentials;
+    Point3f rxOrigin, ryOrigin;
+    Vec3f rxDirection, ryDirection;
+
+    /// RayDifferential public method
+    RayDifferential() {
+        hasDifferentials = false;
+    }
+
+    RayDifferential(const Point3f& _o, const Vec3f& _d, double _tMax = INFINITY, double _time = 0.f) 
+        : Ray(_o, _d, _tMax, _time) {
+        hasDifferentials = false;
+    }
+
+    RayDifferential(const Ray& ray): Ray(ray) {
+        hasDifferentials = false;
+    }
+
+    void ScaleDifferentials(double s) {
+        rxOrigin = o + (rxOrigin - o) * s;
+        ryOrigin = o + (ryOrigin - o) * s;
+        rxDirection = d + (rxDirection - d) * s;
+        ryDirection = d + (ryDirection - d) * s;
+    }
+};
+
+/**
  * \breief Vector inline functions
  */
 
