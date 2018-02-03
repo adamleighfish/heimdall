@@ -529,7 +529,7 @@ class Normal3 {
 };
 
 /**
- * \breief Ray data structure
+ * \brief Ray data structure
  */
 
 class Ray {
@@ -559,7 +559,7 @@ class Ray {
 };
 
 /**
- * \breief RayDifferential data structure
+ * \brief RayDifferential data structure
  */
 
 class RayDifferential: public Ray {
@@ -592,7 +592,7 @@ class RayDifferential: public Ray {
 };
 
 /**
- * \breief Bounds2 data structure
+ * \brief Bounds2 data structure
  */
 
 template <typename T>
@@ -669,7 +669,7 @@ class Bounds2 {
 };
 
 /**
- * \breief Bounds3 data structure
+ * \brief Bounds3 data structure
  */
 
 template <typename T>
@@ -762,7 +762,55 @@ class Bounds3 {
 };
 
 /**
- * \breief Vector inline functions
+ * \brief Interator for Bounds2i 
+ */
+
+class Bounds2iIterator: public std::forward_iterator_tag {
+  public:
+    /// Public Bounds2iIter methods
+    Bounds2iIterator(const Bounds2i& _b, const Point2i& _p): p(_p), b(&_b) {}
+    
+    Bounds2iIterator operator++() {
+        Iterate();
+        return *this;
+    }
+
+    Bounds2iIterator operator++(int) {
+        Bounds2iIterator old = *this;
+        Iterate();
+        return old;
+    }
+
+    bool operator==(const Bounds2iIterator &bi) const {
+        return p == bi.p && b == bi.b;
+    }
+
+    bool operator!=(const Bounds2iIterator &bi) const {
+        return p != bi.p or b != bi.b;
+    }
+
+    Point2i operator*() const { 
+        return p; 
+    }
+
+  private:
+    /// Private Bounds2iIter data
+    Point2i p;
+    const Bounds2i* b;
+
+    /// Private Bounds2iIter methods
+    void Iterate() {
+        ++p.x;
+        if (p.x == b->pMax.x) {
+            p.x = b->pMin.x;
+            ++p.y;
+        }
+    }
+
+};
+
+/**
+ * \brief Vector inline functions
  */
 
 template <typename T>
@@ -1185,6 +1233,26 @@ template <typename T, typename U>
 inline Bounds3<T> Expand(const Bounds3<T>& b, U delta) {
     return Bounds3<T>(b.pMin - Vec3<T>(delta, delta, delta),
                       b.pMax + Vec3<T>(delta, delta, delta));
+}
+
+/**
+ * \breif Bounds2iIter inline functions
+ */
+
+inline Bounds2iIterator begin(const Bounds2i& b) {
+    return Bounds2iIterator(b, b.pMin);
+}
+
+inline Bounds2iIterator end(const Bounds2i& b) {
+    // Normally, the ending point is at the minimum x value and one past
+    // the last valid y value.
+    Point2i pEnd(b.pMin.x, b.pMax.y);
+    // However, if the bounds are degenerate, override the end point to
+    // equal the start point so that any attempt to iterate over the bounds
+    // exits out immediately.
+    if (b.pMin.x >= b.pMax.x or b.pMin.y >= b.pMax.y)
+        pEnd = b.pMin;
+    return Bounds2iIterator(b, pEnd);
 }
 
 HEIMDALL_NAMESPACE_END

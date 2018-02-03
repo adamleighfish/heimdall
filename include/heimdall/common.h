@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <vector>
 #include <limits>
+#include <iterator>
 
 /// Convenient definitions
 #define HEIMDALL_NAMESPACE_BEGIN namespace heimdall {
