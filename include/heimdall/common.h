@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <vector>
+#include <limits>
 
 /// Convenient definitions
 #define HEIMDALL_NAMESPACE_BEGIN namespace heimdall {
@@ -32,6 +33,8 @@ template <typename T> class Point2;
 template <typename T> class Point3;
 template <typename T> class Normal2;
 template <typename T> class Normal3;
+template <typename T> class Bounds2;
+template <typename T> class Bounds3;
 
 /// Basic data stuctures with common type aliases
 typedef Vec2<double>    Vec2f;
@@ -44,8 +47,16 @@ typedef Point2<int>		Point2i;
 typedef Point3<int>		Point3i;
 typedef Normal2<double> Normal2f;
 typedef Normal3<double> Normal3f;
+typedef Bounds2<double> Bounds2f;
+typedef Bounds3<double> Bounds3f;
+typedef Bounds2<int>	Bounds2i;
+typedef Bounds3<int>	Bounds3i;
 
 /// Common functions across all files
+
+inline double Lerp(double t, double v1, double v2) {
+	return (1 - t) * v1 + t * v2;
+}
 
 /// Import cout, cerr, endl for debugging purposes
 using std::cout;
