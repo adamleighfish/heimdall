@@ -11,9 +11,11 @@ include_directories(
 add_executable(heimdall
     # Header files
     include/heimdall/geometry.h
+    include/heimdall/matrix.h
 
     #Source files
     src/main.cpp
+    src/matrix.cpp
 )
 
 # Download and unpack googletest at configure time

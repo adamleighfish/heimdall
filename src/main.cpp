@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "heimdall/geometry.h"
-#include "heimdall/transform.h"
+#include "heimdall/matrix.h"
 
 int main(int argc, char* argv[]) {
     std::cout << "Hello, world!\n";
