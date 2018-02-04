@@ -7,6 +7,7 @@
 #include <vector>
 #include <limits>
 #include <iterator>
+#include <cstring>
 
 /// Convenient definitions
 #define HEIMDALL_NAMESPACE_BEGIN namespace heimdall {

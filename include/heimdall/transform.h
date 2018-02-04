@@ -21,7 +21,7 @@ struct Matrix4x4 {
 	}
 
 	Matrix4x4(double _m[4][4]) {
-		memcpy(m, _m, 16 * sizeof(double));
+		std::memcpy(m, _m, 16 * sizeof(double));
 	}
 
 	Matrix4x4(double t00, double t01, double t02, double t03,
