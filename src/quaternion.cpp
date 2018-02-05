@@ -12,6 +12,8 @@ Quaternion::Quaternion(const Vec3f& _v, float _w) {
 	w = _w;
 }
 
+
+/// Transform to Quaterion constructor, optimized for FPUs
 Quaternion::Quaternion(const Transform& t) {
 	const Matrix& m = t.m;
 	if (m.m[0][0] + m.m[1][1] + m.m[2][2] > 0.0f) {

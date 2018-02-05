@@ -14,7 +14,7 @@
 #define HEIMDALL_NAMESPACE_END }
 
 /// Error epsilon for ray-surface interaction
-#define Epsilon 1e-4f
+#define Epsilon (std::numeric_limits<float>::epsilon() * 0.5)
 
 /// Useful constants
 #undef M_PI
@@ -25,6 +25,7 @@
 #define INV_FOURPI   0.07957747154594766788f
 #define SQRT_TWO     1.41421356237309504880f
 #define INV_SQRT_TWO 0.70710678118654752440f
+#define PI_DIV_180   0.01745329251994329577f
 
 HEIMDALL_NAMESPACE_BEGIN
 
@@ -66,9 +67,11 @@ inline float Lerp(float t, float v1, float v2) {
 inline float InvSqrt(float x) {
 	float xhalf = x * 0.5f;
 	int i = *(int*)&x;				// store floating-point bits in integer
-	i = 0x5f3759df - (i >> 1);  	// initial guess for Newton's method
+	i = 0x5f375a86 - (i >> 1);  	// initial guess for Newton's method
     x = *(float*)&i;            	// convert new bits into float
-    x = x * (1.5f - xhalf * x * x); // One round of Newton's method
+    x = x * (1.5f - xhalf * x * x); // First round of Newton's method
+    x = x * (1.5f - xhalf * x * x); // Second round of Newton's method
+    x = x * (1.5f - xhalf * x * x); // Third round of Newton's method
     return x;
 }
 
@@ -80,6 +83,10 @@ inline T Clamp(T val, U low, V high) {
         return high;
     }
     return val;
+}
+
+inline float Radians(float theta) {
+	return theta * PI_DIV_180;
 }
 
 /// Import cout, cerr, endl for debugging purposes

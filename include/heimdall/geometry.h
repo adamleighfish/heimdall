@@ -210,7 +210,7 @@ class Vec3 {
         return x * x + y * y + z * z; 
     }
 
-    float Lenght() const { 
+    float Length() const { 
         return std::sqrt(LengthSquared()); 
     }
 };
