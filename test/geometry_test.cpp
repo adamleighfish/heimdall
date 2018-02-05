@@ -33,7 +33,7 @@ TEST(Vec3f, ScalarMuliplication) {
     Vec3f v1(1.0, 1.0, 1.0);
     Vec3f v2(2.0, 2.0, 2.0);
     Vec3f v3(3.0, 3.0, 3.0);
-    double s = 2.0;
+    float s = 2.0;
 
     Vec3f v4 = v1 * s;
     Vec3f v5 = s * v1;
@@ -49,7 +49,7 @@ TEST(Vec3f, ScalarDivide) {
     Vec3f v1(4.0, 4.0, 4.0);
     Vec3f v2(2.0, 2.0, 2.0);
     Vec3f v3(1.0, 1.0, 1.0);
-    double s = 2.0;
+    float s = 2.0;
 
     Vec3f v4 = v1 / s;
     v1 /= s;

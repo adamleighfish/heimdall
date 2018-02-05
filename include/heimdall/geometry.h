@@ -101,11 +101,11 @@ class Vec2 {
         return Vec2<T>(-x, -y); 
     }
 
-    double LengthSquared() { 
+    float LengthSquared() { 
         return x * x + y * y; 
     }
 
-    double Length() { 
+    float Length() { 
         return std::sqrt(LengthSquared()); 
     }
 };
@@ -206,11 +206,11 @@ class Vec3 {
         return Vec3<T>(-x, -y, -z); 
     }
 
-    double LengthSquared() const { 
+    float LengthSquared() const { 
         return x * x + y * y + z * z; 
     }
 
-    double Lenght() const { 
+    float Lenght() const { 
         return std::sqrt(LengthSquared()); 
     }
 };
@@ -519,11 +519,11 @@ class Normal3 {
         return Normal3<T>(-x, -y, -z);
     }
 
-    double LengthSquared() const {
+    float LengthSquared() const {
         return x * x + y * y + z * z;
     }
 
-    double Length() const {
+    float Length() const {
         return std::sqrt(LengthSquared());
     }
 };
@@ -537,8 +537,8 @@ class Ray {
     /// Ray public data
     Point3f o;
     Vec3f d;
-    mutable double tMax;
-    double time;
+    mutable float tMax;
+    float time;
 
     /// Ray public methods
     Ray() {
@@ -546,14 +546,14 @@ class Ray {
         time = 0.f;
     }
 
-    Ray(const Point3f& _o, const Vec3f& _d, double _tMax = INFINITY, double _time = 0.f) {
+    Ray(const Point3f& _o, const Vec3f& _d, float _tMax = INFINITY, float _time = 0.f) {
         o = _o;
         d = _d;
         tMax = _tMax;
         time = _time;
     }
 
-    Point3f operator()(double t) const {
+    Point3f operator()(float t) const {
         return o + d * t;
     }
 };
@@ -574,7 +574,7 @@ class RayDifferential: public Ray {
         hasDifferentials = false;
     }
 
-    RayDifferential(const Point3f& _o, const Vec3f& _d, double _tMax = INFINITY, double _time = 0.f) 
+    RayDifferential(const Point3f& _o, const Vec3f& _d, float _tMax = INFINITY, float _time = 0.f) 
         : Ray(_o, _d, _tMax, _time) {
         hasDifferentials = false;
     }
@@ -583,7 +583,7 @@ class RayDifferential: public Ray {
         hasDifferentials = false;
     }
 
-    void ScaleDifferentials(double s) {
+    void ScaleDifferentials(float s) {
         rxOrigin = o + (rxOrigin - o) * s;
         ryOrigin = o + (ryOrigin - o) * s;
         rxDirection = d + (rxDirection - d) * s;
@@ -755,7 +755,7 @@ class Bounds3 {
         return o;
     }
 
-    void BoudingSphere(Point3<T>* center, double* radius) {
+    void BoudingSphere(Point3<T>* center, float* radius) {
         *center = (pMin + pMax) / 2;
         *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
     }
@@ -995,32 +995,32 @@ inline void CoordinateSystem(const Vec3<T>& v1, Vec3<T>* v2, Vec3<T>* v3) {
  */
 
 template <typename T>
-inline double Distance(const Point2<T>& p1, const Point2<T>& p2) {
+inline float Distance(const Point2<T>& p1, const Point2<T>& p2) {
     return (p1 - p2).Length();
 }
 
 template <typename T>
-inline double Distance(const Point3<T>& p1, const Point3<T>& p2) {
+inline float Distance(const Point3<T>& p1, const Point3<T>& p2) {
     return (p1 - p2).Length();
 }
 
 template <typename T>
-inline double DistanceSquared(const Point2<T>& p1, const Point2<T>& p2) {
+inline float DistanceSquared(const Point2<T>& p1, const Point2<T>& p2) {
     return (p1 - p2).LengthSquared();
 }
 
 template <typename T>
-inline double DistanceSquared(const Point3<T>& p1, const Point3<T>& p2) {
+inline float DistanceSquared(const Point3<T>& p1, const Point3<T>& p2) {
     return (p1 - p2).LengthSquared();
 }
 
 template <typename T>
-inline Point2<T> Lerp(double t, const Point2<T>& p0, const Point2<T>& p1) {
+inline Point2<T> Lerp(float t, const Point2<T>& p0, const Point2<T>& p1) {
     return (1 - t) * p0 + t * p1;
 }
 
 template <typename T>
-inline Point3<T> Lerp(double t, const Point3<T>& p0, const Point3<T>& p1) {
+inline Point3<T> Lerp(float t, const Point3<T>& p0, const Point3<T>& p1) {
     return (1 - t) * p0 + t * p1;
 }
 
@@ -1099,32 +1099,32 @@ inline Normal3<T> Normalize(const Normal3<T>& n) {
 }
 
 template <typename T>
-inline double Dot(const Normal3<T>& n1, const Normal3<T>& n2) {
+inline float Dot(const Normal3<T>& n1, const Normal3<T>& n2) {
     return n1.x * n2.x + n1.y * n2.y + n1.z * n2.z;
 }
 
 template <typename T>
-inline double Dot(const Normal3<T>& n, const Vec3<T>& v) {
+inline float Dot(const Normal3<T>& n, const Vec3<T>& v) {
     return n.x * v.x + n.y * v.y + n.z * v.z;
 }
 
 template <typename T>
-inline double Dot(const Vec3<T>& v, const Normal3<T>& n) {
+inline float Dot(const Vec3<T>& v, const Normal3<T>& n) {
     return n.x * v.x + n.y * v.y + n.z * v.z;
 }
 
 template <typename T>
-inline double AbsDot(const Normal3<T>& n1, const Normal3<T>& n2) {
+inline float AbsDot(const Normal3<T>& n1, const Normal3<T>& n2) {
     return std::abs(Dot(n1, n2));
 }
 
 template <typename T>
-inline double AbsDot(const Normal3<T>& n, const Vec3<T>& v) {
+inline float AbsDot(const Normal3<T>& n, const Vec3<T>& v) {
     return std::abs(Dot(n, v));
 }
 
 template <typename T>
-inline double AbsDot(const Vec3<T>& v, const Normal3<T>& n) {
+inline float AbsDot(const Vec3<T>& v, const Normal3<T>& n) {
     return std::abs(Dot(v, n));
 }
 

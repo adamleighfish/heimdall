@@ -9,14 +9,14 @@ Matrix::Matrix() {
 		m[2][3] = m[3][0] = m[3][1] = m[3][2] = 0.f;
 }
 
-Matrix::Matrix(double _m[4][4]) {
-	std::memcpy(m, _m, 16 * sizeof(double));
+Matrix::Matrix(float _m[4][4]) {
+	std::memcpy(m, _m, 16 * sizeof(float));
 }
 
-Matrix::Matrix(double t00, double t01, double t02, double t03,
-		double t10, double t11, double t12, double t13,
-		double t20, double t21, double t22, double t23,
-		double t30, double t31, double t32, double t33) {
+Matrix::Matrix(float t00, float t01, float t02, float t03,
+		float t10, float t11, float t12, float t13,
+		float t20, float t21, float t22, float t23,
+		float t30, float t31, float t32, float t33) {
 	m[0][0] = t00;
 	m[0][1] = t01;
 	m[0][2] = t02;
@@ -69,21 +69,21 @@ Matrix Matrix::operator*(const Matrix& mat) const {
 }
 
 Matrix Inverse(const Matrix& m) { 
-	double s0 = m.m[0][0] * m.m[1][1] - m.m[1][0] * m.m[0][1];
-    double s1 = m.m[0][0] * m.m[1][2] - m.m[1][0] * m.m[0][2];
-    double s2 = m.m[0][0] * m.m[1][3] - m.m[1][0] * m.m[0][3];
-    double s3 = m.m[0][1] * m.m[1][2] - m.m[1][1] * m.m[0][2];
-    double s4 = m.m[0][1] * m.m[1][3] - m.m[1][1] * m.m[0][3];
-    double s5 = m.m[0][2] * m.m[1][3] - m.m[1][2] * m.m[0][3];
+	float s0 = m.m[0][0] * m.m[1][1] - m.m[1][0] * m.m[0][1];
+    float s1 = m.m[0][0] * m.m[1][2] - m.m[1][0] * m.m[0][2];
+    float s2 = m.m[0][0] * m.m[1][3] - m.m[1][0] * m.m[0][3];
+    float s3 = m.m[0][1] * m.m[1][2] - m.m[1][1] * m.m[0][2];
+    float s4 = m.m[0][1] * m.m[1][3] - m.m[1][1] * m.m[0][3];
+    float s5 = m.m[0][2] * m.m[1][3] - m.m[1][2] * m.m[0][3];
 
-    double c5 = m.m[2][2] * m.m[3][3] - m.m[3][2] * m.m[2][3];
-    double c4 = m.m[2][1] * m.m[3][3] - m.m[3][1] * m.m[2][3];
-    double c3 = m.m[2][1] * m.m[3][2] - m.m[3][1] * m.m[2][2];
-    double c2 = m.m[2][0] * m.m[3][3] - m.m[3][0] * m.m[2][3];
-    double c1 = m.m[2][0] * m.m[3][2] - m.m[3][0] * m.m[2][2];
-    double c0 = m.m[2][0] * m.m[3][1] - m.m[3][0] * m.m[2][1];
+    float c5 = m.m[2][2] * m.m[3][3] - m.m[3][2] * m.m[2][3];
+    float c4 = m.m[2][1] * m.m[3][3] - m.m[3][1] * m.m[2][3];
+    float c3 = m.m[2][1] * m.m[3][2] - m.m[3][1] * m.m[2][2];
+    float c2 = m.m[2][0] * m.m[3][3] - m.m[3][0] * m.m[2][3];
+    float c1 = m.m[2][0] * m.m[3][2] - m.m[3][0] * m.m[2][2];
+    float c0 = m.m[2][0] * m.m[3][1] - m.m[3][0] * m.m[2][1];
 
-    double det = 1.0 / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
+    float det = 1.0 / (s0 * c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0);
 
     Matrix inv;
 

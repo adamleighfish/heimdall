@@ -14,7 +14,7 @@ class Transform {
   public:
   	/// Transfor public methods
   	Transform();
-  	Transform(const double mat[4][4]);
+  	Transform(const float mat[4][4]);
   	Transform(const Matrix& _m);
   	Transform(const Matrix& _m, const Matrix& _mInv);
 
@@ -27,11 +27,12 @@ class Transform {
   	friend Transform Transpose(const Transform& t);
 
   	Transform Translate(const Vec3f& delta);
-  	Transform Scale(double x, double y, double z);
+  	Transform Scale(float x, float y, float z);
 
   private:
   	/// Transform private data
   	Matrix m, mInv;
+  	friend class Quaternion;
 };
 
 HEIMDALL_NAMESPACE_END

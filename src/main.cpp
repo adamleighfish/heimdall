@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "heimdall/geometry.h"
-#include "heimdall/matrix.h"
+#include "heimdall/transform.h"
 
 int main(int argc, char* argv[]) {
     std::cout << "Hello, world!\n";
@@ -15,6 +15,9 @@ int main(int argc, char* argv[]) {
     std::cout << v1 << std::endl;
     std::cout << v2 << std::endl;
     std::cout << v3 << std::endl;
+
+    heimdall::Transform t1;
+
     return 0;
 }
 

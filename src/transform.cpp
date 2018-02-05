@@ -1,11 +1,10 @@
-#include "heimdall/common.h"
 #include "heimdall/transform.h"
 
 HEIMDALL_NAMESPACE_BEGIN
 
 Transform::Transform() {}
 
-Transform::Transform(const double mat[4][4]) {
+Transform::Transform(const float mat[4][4]) {
 	m = Matrix(mat[0][0], mat[0][1], mat[0][2], mat[0][3],
 			   mat[1][0], mat[1][1], mat[1][2], mat[1][3],
 			   mat[2][0], mat[2][1], mat[2][2], mat[2][3],
@@ -59,7 +58,7 @@ Transform Translate(const Vec3f& delta) {
 	return Transform(m, mInv);
 }
 
-Transform Scale(double x, double y, double z) {
+Transform Scale(float x, float y, float z) {
 	Matrix m(x, 0, 0, 0,
 			 0, y, 0, 0,
 			 0, 0, z, 0, 
