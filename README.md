@@ -6,6 +6,10 @@ more complete and extensible version of my previous projects. Planned features
 include subsurface scattering, bidirectional path tracing, motion blur, and many,
 many more.
 
+I'm using [pbrt-v3](https://github.com/mmp/pbrt-v3) and its accompanying book as reference 
+throughout the project and cannot recommend the book enough if you are interested 
+in physically based rendering.
+
 ## Building
 
 Heimdall uses [cmake](http://www.cmake.org/) for its build system.  On Linux
