@@ -7,8 +7,8 @@ include subsurface scattering, bidirectional path tracing, motion blur, and many
 many more.
 
 I'm using [pbrt-v3](https://github.com/mmp/pbrt-v3) and its accompanying book as reference 
-throughout the project and cannot recommend the book enough if you are interested 
-in physically based rendering.
+throughout the project and cannot recommend it enough. If you are interested 
+in physically based rendering at all do yourself a favor and pick up a copy.
 
 ## Building
 
