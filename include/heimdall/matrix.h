@@ -15,18 +15,14 @@ class Matrix {
 
 	/// Matrix public method declarations
 	Matrix();
-
 	Matrix(double _m[4][4]);
-
 	Matrix(double t00, double t01, double t02, double t03,
 			double t10, double t11, double t12, double t13,
 			double t20, double t21, double t22, double t23,
 			double t30, double t31, double t32, double t33);
 
 	bool operator==(const Matrix& mat) const;
-
 	bool operator!=(const Matrix& mat) const;
-
 	Matrix operator*(const Matrix& mat) const;
 };
 

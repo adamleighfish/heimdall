@@ -12,10 +12,12 @@ add_executable(heimdall
     # Header files
     include/heimdall/geometry.h
     include/heimdall/matrix.h
+    include/heimdall/transform.h
 
     #Source files
     src/main.cpp
     src/matrix.cpp
+    src/transform.cpp
 )
 
 # Download and unpack googletest at configure time
