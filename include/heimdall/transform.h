@@ -43,6 +43,8 @@ class Transform {
 
     Bounds3f operator()(const Bounds3f& b) const;
 
+    bool SwapsHandedness() const;
+
   private:
   	/// Transform private data
   	Matrix m, mInv;
@@ -89,6 +91,43 @@ Normal3<T> Transform::operator()(const Normal3<T>& n) const {
     return Normal3<T>(mInv.m[0][0] * x + mInv.m[1][0] * y + mInv.m[2][0] * z,
                       mInv.m[0][1] * x + mInv.m[1][1] * y + mInv.m[2][1] * z,
                       mInv.m[0][2] * x + mInv.m[1][2] * y + mInv.m[2][2] * z);
+}
+
+Ray Transform::operator()(const Ray& r) const {
+	Point3f o = (*this)(r.o);
+	Vec3f d = (*this)(r.d);
+	return Ray(o, d, r.tMax, r.time, r.medium);
+}
+
+RayDifferential Transform::operator()(const RayDifferential& r) const {
+	Ray tr = (*this)(Ray(r));
+    RayDifferential ret(tr.o, tr.d, tr.tMax, tr.time, tr.medium);
+    ret.hasDifferentials = r.hasDifferentials;
+    ret.rxOrigin = (*this)(r.rxOrigin);
+    ret.ryOrigin = (*this)(r.ryOrigin);
+    ret.rxDirection = (*this)(r.rxDirection);
+    ret.ryDirection = (*this)(r.ryDirection);
+    return ret;
+}
+
+Bounds3f Transform::operator()(const Bounds3f& b) const {
+	const Transform& T = *this;
+	Bounds3f ret(T(Point3f(b.pMin.x, b.pMin.y, b.pMin.z)));
+	ret = Union(ret, T(Point3f(b.pMin.x, b.pMin.y, b.pMax.z)));
+	ret = Union(ret, T(Point3f(b.pMin.x, b.pMax.y, b.pMin.z)));
+	ret = Union(ret, T(Point3f(b.pMin.x, b.pMax.y, b.pMax.z)));
+	ret = Union(ret, T(Point3f(b.pMax.x, b.pMin.y, b.pMin.z)));
+	ret = Union(ret, T(Point3f(b.pMax.x, b.pMin.y, b.pMax.z)));
+	ret = Union(ret, T(Point3f(b.pMax.x, b.pMax.y, b.pMin.z)));
+	ret = Union(ret, T(Point3f(b.pMax.x, b.pMax.y, b.pMax.z)));
+	return ret;
+}
+
+bool SwapsHandedness() const {
+	float det = m.m[0][0] * (m.m[1][1] * m.m[2][2] - m.m[1][2] * m.m[2][1]) -
+				m.m[1][0] * (m.m[1][0] * m.m[2][2] - m.m[1][2] * m.m[2][0]) +
+				m.m[0][2] * (m.m[1][0] * m.m[2][1] - m.m[1][1] * m.m[2][0]);
+	return det < 0.0f
 }
 
 HEIMDALL_NAMESPACE_END
