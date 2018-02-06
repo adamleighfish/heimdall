@@ -33,6 +33,13 @@ bool Transform::isIdentity() const {
 		   m.m[3][0] == 0.f and m.m[3][1] == 0.f and m.m[3][2] == 0.f and m.m[3][3] == 1.f;
 }
 
+bool Transform::SwapsHandedness() const {
+	float det = m.m[0][0] * (m.m[1][1] * m.m[2][2] - m.m[1][2] * m.m[2][1]) -
+				m.m[1][0] * (m.m[1][0] * m.m[2][2] - m.m[1][2] * m.m[2][0]) +
+				m.m[0][2] * (m.m[1][0] * m.m[2][1] - m.m[1][1] * m.m[2][0]);
+	return det < 0.0f;
+}
+
 bool Transform::operator==(const Transform& t) const {
 	return m == t.m and mInv == t.mInv;
 }
