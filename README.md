@@ -29,3 +29,8 @@ please raise an issue on github and I'll look into it.
 
 Running `heimdall` will start up the renderer and display the classic `Hello, world!` text
 for now. Instructions will be updated once enough features are implemented to display images.
+
+## Contributing
+
+If anyone is interested in contributing to this project, writting test cases and review my code 
+would be greatly appreciated. 
