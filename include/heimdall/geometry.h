@@ -539,19 +539,13 @@ class Ray {
     Vec3f d;
     mutable float tMax;
     float time;
+    const Medium* medium;
 
     /// Ray public methods
-    Ray() {
-        tMax = INFINITY;
-        time = 0.f;
-    }
+    Ray() : tMax(INFINITY), time(0.0f), medium(nullptr) {}
 
-    Ray(const Point3f& _o, const Vec3f& _d, float _tMax = INFINITY, float _time = 0.f) {
-        o = _o;
-        d = _d;
-        tMax = _tMax;
-        time = _time;
-    }
+    Ray(const Point3f& _o, const Vec3f& _d, float _tMax = INFINITY, float _time = 0.0f, const Medium* _medium = nullptr)
+        : o(_o), d(_d), tMax(_tMax), time(_time), medium(_medium) {}
 
     Point3f operator()(float t) const {
         return o + d * t;
@@ -574,8 +568,8 @@ class RayDifferential: public Ray {
         hasDifferentials = false;
     }
 
-    RayDifferential(const Point3f& _o, const Vec3f& _d, float _tMax = INFINITY, float _time = 0.f) 
-        : Ray(_o, _d, _tMax, _time) {
+    RayDifferential(const Point3f& _o, const Vec3f& _d, float _tMax = INFINITY, float _time = 0.0f, const Medium* _medium = nullptr) 
+        : Ray(_o, _d, _tMax, _time, _medium) {
         hasDifferentials = false;
     }
 

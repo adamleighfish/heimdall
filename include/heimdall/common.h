@@ -41,6 +41,10 @@ template <typename T> class Bounds3;
 class Matrix;
 class Transform;
 class Quaternion;
+class Interaction;
+class SurfaceInteraction;
+class Material;
+class Medium;
 
 /// Basic data stuctures with common type aliases
 typedef Vec2<float>        Vec2f;
