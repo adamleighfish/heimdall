@@ -32,5 +32,5 @@ for now. Instructions will be updated once enough features are implemented to di
 
 ## Contributing
 
-If anyone is interested in contributing to this project, writting test cases and review my code 
-would be greatly appreciated. 
+If anyone is interested in contributing to this project, writting test cases and reviewing 
+my code would be greatly appreciated. 
