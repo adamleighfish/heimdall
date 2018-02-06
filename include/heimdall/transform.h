@@ -109,17 +109,48 @@ inline RayDifferential Transform::operator()(const RayDifferential& r) const {
     return ret;
 }
 
-inline Bounds3f Transform::operator()(const Bounds3f& b) const {
-	const Transform& T = *this;
-	Bounds3f ret(T(Point3f(b.pMin.x, b.pMin.y, b.pMin.z)));
-	ret = Union(ret, T(Point3f(b.pMin.x, b.pMin.y, b.pMax.z)));
-	ret = Union(ret, T(Point3f(b.pMin.x, b.pMax.y, b.pMin.z)));
-	ret = Union(ret, T(Point3f(b.pMin.x, b.pMax.y, b.pMax.z)));
-	ret = Union(ret, T(Point3f(b.pMax.x, b.pMin.y, b.pMin.z)));
-	ret = Union(ret, T(Point3f(b.pMax.x, b.pMin.y, b.pMax.z)));
-	ret = Union(ret, T(Point3f(b.pMax.x, b.pMax.y, b.pMin.z)));
-	ret = Union(ret, T(Point3f(b.pMax.x, b.pMax.y, b.pMax.z)));
-	return ret;
+/// Method by Jim Arvo in Graphics Gems (1990)
+inline Bounds3f Transform::operator()(const Bounds3f& a) const {
+	float aTemp, bTemp;
+    float aMin[3], aMax[3];
+    float bMin[3], bMax[3];
+
+    /*Copy box A into a min array and a max array for easy reference.*/
+
+    aMin[0] = a.pMin.x;  
+    aMin[1] = a.pMin.y;  
+    aMin[2] = a.pMin.z;  
+
+    aMax[0] = a.pMax.x;
+	aMax[1] = a.pMax.y;
+	aMax[2] = a.pMax.z;
+
+    /* Take care of translation by begining at T */
+
+    bMin[0] = bMax[0] = m.m[0][3];
+    bMin[1] = bMax[1] = m.m[1][3];
+    bMin[2] = bMax[2] = m.m[2][3];
+
+    /* Now find the extreme points by considering the product of the */
+    /* min and max with each component of M.  */
+                     
+    for(int i = 0; i < 3; ++i) {
+	    for(int j = 0; j < 3; ++j) {
+	        aTemp = m.m[i][j] * aMin[j];
+	        bTemp = m.m[i][j] * aMax[j];
+	        if (aTemp < bTemp) { 
+	            bMin[i] += aTemp; 
+	            bMax[i] += bTemp;
+	        } else { 
+	            bMin[i] += bTemp; 
+	            bMax[i] += aTemp;
+	        }
+	    }
+    }
+
+    /* Copy the result into the new box. */
+	return Bounds3f(Point3f(bMin[0], bMin[1], bMin[2]),
+				    Point3f(bMax[0], bMax[1], bMax[2]));
 }
 
 HEIMDALL_NAMESPACE_END
