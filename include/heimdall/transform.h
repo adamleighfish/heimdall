@@ -3,6 +3,7 @@
 #include "heimdall/common.h"
 #include "heimdall/matrix.h"
 #include "heimdall/geometry.h"
+#include "heimdall/quaternion.h"
 
 HEIMDALL_NAMESPACE_BEGIN
 
@@ -48,6 +49,7 @@ class Transform {
   	/// Transform private data
   	Matrix m, mInv;
   	friend class Quaternion;
+    friend class AnimatedTransform;
 };
 
 Transform Translate(const Vec3f& delta);
@@ -57,6 +59,30 @@ Transform RotateY(float theta);
 Transform RotateZ(float theta);
 Transform Rotate(float theta, const Vec3f& axis);
 Transform LookAt(const Point3f& pos, const Point3f& look, const Vec3f& up);
+
+/**
+ * \breif Animated Transform 
+ */
+
+class AnimatedTransform {
+  public:
+    /// AnimatedTransform public methods
+    AnimatedTransform(const Transform* startTransform, float startTime,
+                      const Transform* endTransform,   float endTime);
+
+    void Decompose(const Matrix& mSRT, Vec3f* T, Quaternion* R, Matrix* S);
+
+  private:
+    /// AnimatedTransform private data
+    const Transform* startTransform;
+    const Transform* endTransform;
+    const float startTime, endTime;
+    const bool actuallyAnimated;
+    Vec3f T[2];
+    Quaternion R[2];
+    Matrix S[2];
+    bool hasRotation;
+};
 
 /**
  * \breif Transformation template methods
