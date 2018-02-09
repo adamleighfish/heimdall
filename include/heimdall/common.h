@@ -45,6 +45,7 @@ class Interaction;
 class SurfaceInteraction;
 class Material;
 class Medium;
+class Shape;
 
 /// Basic data stuctures with common type aliases
 typedef Vec2<float>        Vec2f;
