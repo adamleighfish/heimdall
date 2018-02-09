@@ -515,6 +515,14 @@ class Normal3 {
         return *this;
     }
 
+    bool operator==(const Normal3<T>& n) const {
+        return x == n.x and y == n.y and z == n.z;
+    }
+
+    bool operator!=(const Normal3<T>& n) const {
+        return x != n.x or y != n.y or z != n.z;
+    }
+
     Normal3<T> operator-() const {
         return Normal3<T>(-x, -y, -z);
     }
@@ -982,6 +990,16 @@ inline void CoordinateSystem(const Vec3<T>& v1, Vec3<T>* v2, Vec3<T>* v3) {
         *v2 = Vec3<T>(0, v1.z, -v1.y) / std::sqrt(v1.y * v1.y + v1.z * v1.z);
     }
     *v3 = Cross(v1, *v2);
+}
+
+template <typename T>
+inline Vec2<T> Lerp(float dt, const Vec2<T>& v1, const Vec2<T>& v2) {
+    return (1.0f - dt) * v1 + dt * v2;
+}
+
+template <typename T>
+inline Vec3<T> Lerp(float dt, const Vec3<T>& v1, const Vec3<T>& v2) {
+    return (1.0f - dt) * v1 + dt * v2;
 }
 
 /**
