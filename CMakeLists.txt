@@ -14,12 +14,16 @@ add_executable(heimdall
     include/heimdall/matrix.h
     include/heimdall/transform.h
     include/heimdall/quaternion.h
+    include/heimdall/interaction.h
+    include/heimdall/shape.h
 
     #Source files
     src/main.cpp
     src/matrix.cpp
     src/transform.cpp
     src/quaternion.cpp
+    src/interaction.cpp
+    src/shape.cpp
 )
 
 # Download and unpack googletest at configure time
