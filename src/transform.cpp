@@ -239,4 +239,35 @@ void AnimatedTransform::Decompose(const Matrix& mSRT, Vec3f* T, Quaternion* R, M
 	*S = Inverse(mR) * mSR;
 }
 
+void AnimatedTransform::Interpolate(float time, Transform* t) const {
+	/// Handle boundary conditions
+	if (!actuallyAnimated or time <= startTime) {
+		*t = *startTransform;
+		return;
+	}
+	if (time >= endTime) {
+		*t = *endTransform;
+		return;
+	}
+
+	float dt = (time - startTime) / (endTime - startTime);
+
+	/// Interpolate translation at dt
+	Vec3f trans = Lerp(dt, T[0], T[1]);
+
+	/// Interpolate rotation at dt
+	Quaternion quat = Slerp(dt, R[0], R[1]);
+
+	/// Interpolate scale at dt
+	Matrix scale;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			scale.m[i][j] = Lerp(dt, S[0].m[i][j], S[1].m[i][j]);
+		}
+	}
+
+	/// Compute interpolated matrix
+	*t = Translate(trans) * quat.ToTransform() * Transform(scale);
+}
+
 HEIMDALL_NAMESPACE_END
