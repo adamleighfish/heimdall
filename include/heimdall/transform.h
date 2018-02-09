@@ -71,6 +71,13 @@ class AnimatedTransform {
                       const Transform* endTransform,   float endTime);
 
     void Decompose(const Matrix& mSRT, Vec3f* T, Quaternion* R, Matrix* S);
+    void Interpolate(float time, Transform* t) const;
+
+    Ray operator()(const Ray& r) const;
+    RayDifferential operator()(const RayDifferential& r) const;
+    Point3f operator()(float time, const Point3f& p) const;
+    Vec3f operator()(float time, const Vec3f &v) const;
+
 
   private:
     /// AnimatedTransform private data
