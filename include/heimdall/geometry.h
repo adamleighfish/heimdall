@@ -138,6 +138,12 @@ class Vec3 {
         return *this;
     }
 
+    T operator[](int i) const {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        return z;
+    }
+
     T& operator[](int i) {
         if (i == 0) return x;
         if (i == 1) return y;
@@ -362,6 +368,18 @@ class Point3 {
     /// Explicit conversion to a Vec3
     template <typename U> explicit operator Vec3<U>() const {
         return Vec3<U>(x, y, z);
+    }
+
+    T operator[](int i) const {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        return z;
+    }
+
+    T& operator[](int i) {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        return z;
     }
 
     Point3<T> operator+(const Vec3<T>& v) const {
@@ -760,6 +778,76 @@ class Bounds3 {
     void BoudingSphere(Point3<T>* center, float* radius) {
         *center = (pMin + pMax) / 2;
         *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
+    }
+
+    bool IntersectP(const Ray& r, float* hitt0, float* hitt1) const {
+        float t0 = 0.0f;
+        float t1 = r.tMax;
+
+        for (int i = 0; i < 3; ++i) {
+            /// Update interval for i-th slab
+            float invRayDir = 1.0f / r.d[i];
+            float tNear = (pMin[i] - r.o[i]) * invRayDir;
+            float tFar = (pMax[i] - r.o[i]) * invRayDir;
+
+            /// Update parametric interval from slab intersection t values
+            if (tNear > tFar) {
+                std::swap(tNear, tFar);
+            }
+
+            /// Update tFar to ensure robust ray-bounds intersection
+            /// TODO
+
+            t0 = tNear > t0 ? tNear : t0;
+            t1 = tFar < t1 ? tFar : t1;
+            if (t0 > t1) {
+                return false;
+            }
+        }
+
+        if (hitt0) {
+            *hitt0 = t0;
+        }
+        if (hitt1) {
+            *hitt1 = t1;
+        }
+        return true;
+    } 
+
+    /// Special overloaded IntersectP with Ray inverse already computed, doesn't return range
+    bool IntersectP(const Ray& r, const Vec3f& invDir, const int dirIsNeg[3]) const {
+        const Bounds3f& bounds = *this;
+
+        /// Check for intersetion against slabs
+        float tMin  = (bounds[    dirIsNeg[0]].x - r.o.x) * invDir.x;
+        float tMax  = (bounds[1 - dirIsNeg[0]].x - r.o.x) * invDir.x;
+        float tyMin = (bounds[    dirIsNeg[1]].y - r.o.y) * invDir.y;
+        float tyMax = (bounds[1 - dirIsNeg[1]].y - r.o.y) * invDir.y;
+
+        if (tMin > tyMax or tyMin > tMax) {
+            return false;
+        }
+        if (tyMin > tMin) {
+            tMin = tyMin;
+        }
+        if (tyMax < tMax) {
+            tMax = tyMax;
+        }
+
+        float tzMin = (bounds[    dirIsNeg[2]].z - r.o.z) * invDir.z;
+        float tzMax = (bounds[1 - dirIsNeg[2]].y - r.o.z) * invDir.z;
+
+        if (tMin > tyMax or tzMin > tMax) {
+            return false;
+        }
+        if (tzMin > tMin) {
+            tMin = tzMin;
+        }
+        if (tzMax < tMax) {
+            tMax = tzMax;
+        }
+
+        return (tMin < r.tMax) and (tMax > 0.0f);
     }
 };
 
