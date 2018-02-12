@@ -23,7 +23,6 @@ add_executable(heimdall
     src/transform.cpp
     src/quaternion.cpp
     src/interaction.cpp
-    src/shape.cpp
 )
 
 # Download and unpack googletest at configure time
